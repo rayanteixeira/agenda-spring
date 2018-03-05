@@ -1,10 +1,7 @@
 package br.com.dev.agenda.resource;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -15,9 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.dev.agenda.model.Contato;
 import br.com.dev.agenda.model.Usuario;
-import br.com.dev.agenda.repository.ContatoRepository;
 import br.com.dev.agenda.repository.UsuarioRepository;
 
 @RestController
@@ -28,11 +23,6 @@ public class UsuarioResource {
 	@Autowired
 	private UsuarioRepository usuarioRepository;
 	
-	@Autowired
-	private ContatoRepository contatoRepository;
-
-	
-
 	@PostMapping("/registrar")
 	@ResponseStatus(HttpStatus.CREATED)
 	public Usuario salvar(@RequestBody Usuario usuario) {
@@ -42,8 +32,7 @@ public class UsuarioResource {
 	}
 
 	@PostMapping("/login")
-	public List<Contato> login(@RequestBody Usuario usuario) {
-			System.out.println("> usuario: " + usuario.getEmail() + " senha: " + usuario.getSenha());
+	public Usuario login(@RequestBody Usuario usuario) {
 		
 			Usuario usuarioBanco = usuarioRepository.findByEmail(usuario.getEmail());
 			Usuario user = new Usuario();
@@ -51,18 +40,15 @@ public class UsuarioResource {
 			if(usuarioBanco != null && usuarioBanco.getId() != null){
 				//valida os campos digitados com os campos inseridos no banco
 				if (usuarioBanco.getEmail().equals(usuario.getEmail()) && usuarioBanco.getSenha().equals(usuario.getSenha())) {
-					
-					List<Contato> contatos = contatoRepository.findByUser(usuario.getId());					
-					
-					// user.setId(usuario.getId());
-					// user.setNome(usuarioBanco.getNome());
-					// user.setEmail(usuarioBanco.getEmail());
-					return contatos;
+					user.setId(usuarioBanco.getId());
+					user.setNome(usuarioBanco.getNome());
+					user.setEmail(usuarioBanco.getEmail());
+					return user;
 				}else{
-					return new ArrayList<>();	
+					return new Usuario();	
 				}
 			}else{
-				return new ArrayList<>();		
+				return new Usuario();		
 		}
 		
 	}

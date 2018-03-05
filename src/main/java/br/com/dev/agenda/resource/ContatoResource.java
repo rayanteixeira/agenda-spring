@@ -63,9 +63,12 @@ public class ContatoResource {
 		
 	}
 	
-	@GetMapping("/contatos")
-	public List<Contato> listar(){
-		List<Contato> contatos = contatoRepository.findAll();
+	@GetMapping("/contatos/{id}")
+	public List<Contato> listar(@PathVariable Long id){
+		
+		System.out.println("usuario id " + id);
+		List<Contato> contatos = contatoRepository.findByUser(id);		
+		// List<Contato> contatos = contatoRepository.findAll();
 		return contatos;
 	}
 }

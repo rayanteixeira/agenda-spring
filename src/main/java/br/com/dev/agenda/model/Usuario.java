@@ -28,13 +28,6 @@ public class Usuario implements Serializable {
 	@NotEmpty
 	private String email;
 
-	// @OneToMany(cascade = {CascadeType.ALL})
-	// private List<Contato> contatos;
-
-	// @OneToMany(mappedBy = "produto", cascade = { CascadeType.PERSIST,
-	// CascadeType.MERGE })
-	// private List<Movimentacao> movimentacoes = new ArrayList<>();
-
 	public Usuario() {
 
 	}
